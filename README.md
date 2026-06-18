@@ -9,7 +9,7 @@ A community platform for discovering and sharing book recommendations.
 | Layer      | Technology         |
 |------------|--------------------|
 | Runtime    | Node.js v18+       |
-| Framework  | Express.js         |
+| Framework  | Express.js, React (Frontend)         |
 | Database   | MongoDB + Mongoose |
 | Auth       | JWT (jsonwebtoken) |
 | Security   | Helmet, bcryptjs, express-rate-limit |
