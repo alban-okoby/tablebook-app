@@ -1,4 +1,4 @@
-# 📚 Book Recommendation App
+# Book Recommendation App
 
 A community platform for discovering and sharing book recommendations.
 
@@ -95,7 +95,7 @@ The API will be available at `http://localhost:5000/api`
 
 ---
 
-## API Endpoints (Coming Next)
+## Some API Endpoints
 
 | Method | Endpoint                    | Description              |
 |--------|-----------------------------|--------------------------|
