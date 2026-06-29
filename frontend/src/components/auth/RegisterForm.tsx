@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Input, Button, Card } from "@/components/ui";
 import { auth } from "@/lib/api";
+import { setToken } from "@/lib/auth-token";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export function RegisterForm() {
         password: form.password,
         phone: form.phone || undefined,
       });
-      localStorage.setItem("token", token);
+      setToken(token);
       router.push("/bookings");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed.");

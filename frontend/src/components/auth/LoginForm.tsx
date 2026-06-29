@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Input, Button, Card } from "@/components/ui";
 import { auth } from "@/lib/api";
+import { setToken } from "@/lib/auth-token";
 
 export function LoginForm() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export function LoginForm() {
     setLoading(true);
     try {
       const { token } = await auth.login({ email, password });
-      localStorage.setItem("token", token);
+      setToken(token);
       router.push("/bookings");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Invalid credentials.");
