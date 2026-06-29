@@ -73,8 +73,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── API Routes ──────────────────────────────────────────────────────────────
 app.use('/api/auth', authLimiter, require('./routes/auth'));
-app.use('/api/books', require('./routes/books'));
-app.use('/api/recommendations', require('./routes/recommendations'));
+app.use('/api/restaurants', require('./routes/restaurants'));
+app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/users', require('./routes/users'));
 
 // ─── Health Check ────────────────────────────────────────────────────────────

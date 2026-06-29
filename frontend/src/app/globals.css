@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Colors ─────────────────────────────────────────────────── */
+
+  /* Brand & Accent */
+  --color-primary:         #9fe870;
+  --color-on-primary:      #0e0f0c;
+  --color-primary-active:  #cdffad;
+  --color-primary-neutral: #c5edab;
+  --color-primary-pale:    #e2f6d5;
+
+  /* Surface */
+  --color-canvas:      #ffffff;
+  --color-canvas-soft: #e8ebe6;
+
+  /* Text */
+  --color-ink:      #0e0f0c;
+  --color-ink-deep: #163300;
+  --color-body:     #454745;
+  --color-mute:     #868685;
+
+  /* Semantic — Positive */
+  --color-positive:      #2ead4b;
+  --color-positive-deep: #054d28;
+
+  /* Semantic — Warning */
+  --color-warning:         #ffd11a;
+  --color-warning-deep:    #b86700;
+  --color-warning-content: #4a3b1c;
+
+  /* Semantic — Negative */
+  --color-negative:         #d03238;
+  --color-negative-deep:    #a72027;
+  --color-negative-darkest: #a7000d;
+  --color-negative-bg:      #320707;
+
+  /* Tertiary Accents */
+  --color-accent-orange: #ffc091;
+  --color-accent-cyan:   #38c8ff;
+
+  /* ── Typography ─────────────────────────────────────────────── */
+
+  /* Font families — Inter replaces proprietary Wise Sans for display */
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Font sizes */
+  --text-display-mega: 126px;
+  --text-display-xxl:   96px;
+  --text-display-xl:    64px;
+  --text-display-lg:    47px;
+  --text-display-md:    40px;
+  --text-display-sm:    32px;
+  --text-display-xs:    24px;
+  --text-body-lg:       20px;
+  --text-body-md:       16px;
+  --text-body-sm:       14px;
+  --text-caption:       12px;
+  --text-button-md:     16px;
+
+  /* Line heights */
+  --leading-display-mega: 107.1px;
+  --leading-display-xxl:   81.6px;
+  --leading-display-xl:    54.4px;
+  --leading-display-lg:    70.5px;
+  --leading-display-md:    34px;
+  --leading-display-sm:    38.4px;
+  --leading-display-xs:    31.2px;
+  --leading-body-lg:       30px;
+  --leading-body-md:       24px;
+  --leading-body-sm:       20px;
+  --leading-caption:       16px;
+
+  /* ── Border Radius ──────────────────────────────────────────── */
+  --radius-none: 0px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  /* ── Spacing ────────────────────────────────────────────────── */
+  --spacing-xxs: 2px;
+  --spacing-xs:  4px;
+  --spacing-sm:  8px;
+  --spacing-md:  12px;
+  --spacing-lg:  16px;
+  --spacing-xl:  24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 48px;
+}
+
+/* ── Base Styles ─────────────────────────────────────────────── */
+
+html {
+  background-color: var(--color-canvas-soft);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* ── Typography Utility Classes ─────────────────────────────── */
+
+.text-display-mega {
+  font-family: var(--font-display);
+  font-size: var(--text-display-mega);
+  font-weight: 900;
+  line-height: var(--leading-display-mega);
+}
+
+.text-display-xxl {
+  font-family: var(--font-display);
+  font-size: var(--text-display-xxl);
+  font-weight: 900;
+  line-height: var(--leading-display-xxl);
+}
+
+.text-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--text-display-xl);
+  font-weight: 900;
+  line-height: var(--leading-display-xl);
+}
+
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  font-weight: 400;
+  line-height: var(--leading-display-lg);
+  letter-spacing: -0.108px;
+}
+
+.text-display-md {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  font-weight: 900;
+  line-height: var(--leading-display-md);
+}
+
+.text-display-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-display-sm);
+  font-weight: 600;
+  line-height: var(--leading-display-sm);
+  letter-spacing: -0.96px;
+}
+
+.text-display-xs {
+  font-family: var(--font-body);
+  font-size: var(--text-display-xs);
+  font-weight: 600;
+  line-height: var(--leading-display-xs);
+  letter-spacing: -0.48px;
+}
+
+.text-body-lg {
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg);
+  font-weight: 400;
+  line-height: var(--leading-body-lg);
+}
+
+.text-body-md {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  font-weight: 400;
+  line-height: var(--leading-body-md);
+}
+
+.text-body-md-strong {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  font-weight: 600;
+  line-height: var(--leading-body-md);
+}
+
+.text-body-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  font-weight: 400;
+  line-height: var(--leading-body-sm);
+}
+
+.text-body-sm-strong {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: var(--leading-body-sm);
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: var(--leading-caption);
+}
+
+.text-button-md {
+  font-family: var(--font-body);
+  font-size: var(--text-button-md);
+  font-weight: 600;
+  line-height: var(--leading-body-md);
+}

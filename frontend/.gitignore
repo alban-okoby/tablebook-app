@@ -11,15 +11,9 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-# Next.js
-**/.next/
-**/out/
-
-# Environment variables
-DESIGN.md
-.env
-.env.local
-.env.*.local
+# Next.js build output
+.next/
+out/
 
 # IDEs and editors
 .idea/

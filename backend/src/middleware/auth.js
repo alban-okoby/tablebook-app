@@ -48,7 +48,7 @@ router.post('/register', registerRules, async (req, res, next) => {
       return res.status(400).json({ error: 'Validation failed', details: errors.array() });
     }
 
-    const { username, email, password, bio, favoriteGenres } = req.body;
+    const { username, email, password, bio, phone } = req.body;
 
     const existingUser = await User.findOne({
       $or: [{ email }, { username }],
@@ -63,7 +63,7 @@ router.post('/register', registerRules, async (req, res, next) => {
       email,
       password,
       bio: bio || '',
-      favoriteGenres: favoriteGenres || [],
+      phone: phone || null,
     });
 
     sendAuthResponse(res, user, 201);
@@ -103,10 +103,7 @@ router.post('/login', loginRules, async (req, res, next) => {
 // ─── GET /api/auth/me ─────────────────────────────────────────────────────────
 router.get('/me', protect, async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id)
-      .populate('booksRead', 'title authors coverImage ratings.average')
-      .populate('wishlist', 'title authors coverImage ratings.average');
-
+    const user = await User.findById(req.user._id);
     res.json({ user: user.toSafeObject() });
   } catch (err) {
     next(err);
@@ -119,7 +116,7 @@ router.patch(
   protect,
   [
     body('bio').optional().isLength({ max: 500 }).withMessage('Bio cannot exceed 500 characters'),
-    body('favoriteGenres').optional().isArray().withMessage('favoriteGenres must be an array'),
+    body('phone').optional().trim(),
     body('username')
       .optional()
       .trim()
@@ -133,7 +130,7 @@ router.patch(
         return res.status(400).json({ error: 'Validation failed', details: errors.array() });
       }
 
-      const allowedFields = ['username', 'bio', 'favoriteGenres', 'avatar'];
+      const allowedFields = ['username', 'bio', 'phone', 'avatar'];
       const updates = {};
       allowedFields.forEach((field) => {
         if (req.body[field] !== undefined) updates[field] = req.body[field];
