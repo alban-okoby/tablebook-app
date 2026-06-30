@@ -2,6 +2,8 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "@/components/layout";
 import { Badge, Button, Card } from "@/components/ui";
 import { BookingSummary } from "@/components/booking/BookingSummary";
@@ -100,8 +102,16 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
               {restaurant.name}
             </Link>
             <p className="text-body-sm text-[var(--color-mute)]">{restaurant.address.city}</p>
-            {restaurant.phone && <p className="text-body-sm text-[var(--color-body)]">📞 {restaurant.phone}</p>}
-            {restaurant.email && <p className="text-body-sm text-[var(--color-body)]">✉️ {restaurant.email}</p>}
+            {restaurant.phone && (
+              <p className="text-body-sm text-[var(--color-body)] flex items-center gap-[var(--spacing-sm)]">
+                <FontAwesomeIcon icon={faPhone} className="w-4 text-[var(--color-mute)]" /> {restaurant.phone}
+              </p>
+            )}
+            {restaurant.email && (
+              <p className="text-body-sm text-[var(--color-body)] flex items-center gap-[var(--spacing-sm)]">
+                <FontAwesomeIcon icon={faEnvelope} className="w-4 text-[var(--color-mute)]" /> {restaurant.email}
+              </p>
+            )}
           </Card>
 
           {/* Cancel action */}

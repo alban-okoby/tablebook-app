@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays, faClock, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Badge, Button, Card } from "@/components/ui";
 import type { Booking, BookingStatus } from "@/types/booking";
 
@@ -50,9 +52,15 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
         </div>
 
         <div className="flex flex-wrap gap-[var(--spacing-md)] text-body-sm text-[var(--color-body)]">
-          <span>📅 {formattedDate}</span>
-          <span>🕐 {time}</span>
-          <span>👥 {partySize} {partySize === 1 ? "guest" : "guests"}</span>
+          <span className="flex items-center gap-[var(--spacing-xs)]">
+            <FontAwesomeIcon icon={faCalendarDays} className="text-[var(--color-mute)]" /> {formattedDate}
+          </span>
+          <span className="flex items-center gap-[var(--spacing-xs)]">
+            <FontAwesomeIcon icon={faClock} className="text-[var(--color-mute)]" /> {time}
+          </span>
+          <span className="flex items-center gap-[var(--spacing-xs)]">
+            <FontAwesomeIcon icon={faUsers} className="text-[var(--color-mute)]" /> {partySize} {partySize === 1 ? "guest" : "guests"}
+          </span>
         </div>
 
         <p className="text-caption text-[var(--color-mute)]">

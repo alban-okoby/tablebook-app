@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "@/components/layout";
 import { Button, Card } from "@/components/ui";
 
@@ -20,7 +22,7 @@ export default function GlobalError({
     <div className="py-[var(--spacing-3xl)]" style={{ backgroundColor: "var(--color-canvas)" }}>
       <Container>
         <Card variant="sage" className="max-w-lg mx-auto text-center py-[var(--spacing-3xl)]">
-          <p className="text-display-xs mb-[var(--spacing-sm)]">⚠️</p>
+          <FontAwesomeIcon icon={faTriangleExclamation} className="text-display-xs mb-[var(--spacing-sm)] text-[var(--color-warning-deep)]" />
           <h1 className="text-display-sm text-[var(--color-ink)] mb-[var(--spacing-sm)]">
             Something went wrong
           </h1>

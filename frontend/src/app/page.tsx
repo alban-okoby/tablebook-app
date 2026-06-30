@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBolt, faGift, faArrowsRotate, faUtensils, faStar } from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { Button, Badge, Card } from "@/components/ui";
 import { HeroBand, ContentBand } from "@/components/bands";
 import { BookingWidget } from "@/components/booking";
@@ -10,22 +13,22 @@ const FEATURED = [
   { id: "3", name: "La Pergola",    cuisine: "Italian",   price: "$$$$",rating: 4.9, city: "Rome",   reviews: 211 },
 ];
 
-const FEATURES = [
+const FEATURES: { variant: "dark" | "green" | "sage"; icon: IconDefinition; title: string; body: string }[] = [
   {
-    variant: "dark"  as const,
-    icon: "⚡",
+    variant: "dark",
+    icon: faBolt,
     title: "Instant confirmation",
     body: "No waiting, no phone calls. Your table is confirmed in seconds.",
   },
   {
-    variant: "green" as const,
-    icon: "🎁",
+    variant: "green",
+    icon: faGift,
     title: "Zero booking fees",
     body: "We never charge you to make a reservation. Always completely free.",
   },
   {
-    variant: "sage"  as const,
-    icon: "🔄",
+    variant: "sage",
+    icon: faArrowsRotate,
     title: "Easy cancellation",
     body: "Plans change. Cancel your booking up to 2 hours before arrival.",
   },
@@ -68,14 +71,16 @@ export default function Home() {
                 className="w-full h-44 rounded-[var(--radius-lg)] flex items-center justify-center"
                 style={{ backgroundColor: "var(--color-canvas-soft)" }}
               >
-                <span className="text-display-md">🍽</span>
+                <FontAwesomeIcon icon={faUtensils} className="text-display-md text-[var(--color-mute)]" />
               </div>
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-body-md-strong text-[var(--color-ink)]">{r.name}</p>
                   <p className="text-body-sm text-[var(--color-mute)]">{r.city}</p>
                 </div>
-                <Badge variant="positive">★ {r.rating}</Badge>
+                <Badge variant="positive">
+                  <FontAwesomeIcon icon={faStar} className="mr-1" /> {r.rating}
+                </Badge>
               </div>
               <div className="flex items-center gap-[var(--spacing-xs)]">
                 <Badge variant="neutral">{r.cuisine}</Badge>
@@ -101,7 +106,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[var(--spacing-xl)]">
           {FEATURES.map(({ variant, icon, title, body }) => (
             <Card key={title} variant={variant} className="flex flex-col gap-[var(--spacing-md)]">
-              <span className="text-display-xs">{icon}</span>
+              <FontAwesomeIcon icon={icon} className="text-display-xs" />
               <p className="text-display-xs">{title}</p>
               <p
                 className="text-body-sm"

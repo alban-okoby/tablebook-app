@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "@/components/ui";
 import type { Review } from "@/types/restaurant";
 
@@ -10,12 +12,11 @@ function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex gap-[var(--spacing-xxs)]">
       {[1, 2, 3, 4, 5].map((star) => (
-        <span
+        <FontAwesomeIcon
           key={star}
+          icon={faStar}
           style={{ color: star <= rating ? "var(--color-primary)" : "var(--color-mute)" }}
-        >
-          ★
-        </span>
+        />
       ))}
     </div>
   );

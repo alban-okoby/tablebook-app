@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { RestaurantCard } from "./RestaurantCard";
 import type { Restaurant } from "@/types/restaurant";
 
@@ -16,7 +18,7 @@ export function RestaurantGrid({
         className="rounded-[var(--radius-xl)] p-[var(--spacing-3xl)] text-center"
         style={{ backgroundColor: "var(--color-canvas-soft)" }}
       >
-        <p className="text-display-xs text-[var(--color-mute)] mb-[var(--spacing-sm)]">🍽</p>
+        <FontAwesomeIcon icon={faUtensils} className="text-display-xs text-[var(--color-mute)] mb-[var(--spacing-sm)]" />
         <p className="text-body-md text-[var(--color-mute)]">{emptyMessage}</p>
       </div>
     );

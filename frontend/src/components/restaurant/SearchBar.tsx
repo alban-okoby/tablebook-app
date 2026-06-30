@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Input, Button } from "@/components/ui";
 import { CuisinePill } from "./CuisinePill";
 import type { Cuisine } from "@/types/restaurant";
@@ -44,7 +46,7 @@ export function SearchBar() {
           onChange={(e) => setQ(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className="flex-1"
-          leftIcon={<span>🔍</span>}
+          leftIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
         />
         <Input
           placeholder="City"
@@ -52,7 +54,7 @@ export function SearchBar() {
           onChange={(e) => setCity(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className="sm:w-44"
-          leftIcon={<span>📍</span>}
+          leftIcon={<FontAwesomeIcon icon={faLocationDot} />}
         />
         <Button variant="primary" onClick={handleSearch} className="sm:shrink-0">
           Search

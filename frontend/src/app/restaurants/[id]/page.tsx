@@ -3,6 +3,8 @@
 import { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUtensils, faStar, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "@/components/layout";
 import { Badge, Button, Card } from "@/components/ui";
 import { BookingWidget } from "@/components/booking";
@@ -33,7 +35,7 @@ export default function RestaurantDetailPage({ params }: { params: Promise<{ id:
       <div className="py-[var(--spacing-3xl)]" style={{ backgroundColor: "var(--color-canvas)" }}>
         <Container>
           <Card variant="sage" className="text-center py-[var(--spacing-3xl)]">
-            <p className="text-display-xs text-[var(--color-mute)] mb-[var(--spacing-md)]">🍽</p>
+            <FontAwesomeIcon icon={faUtensils} className="text-display-xs text-[var(--color-mute)] mb-[var(--spacing-md)]" />
             <p className="text-body-md text-[var(--color-mute)]">{error ?? "Restaurant not found."}</p>
             <Link href="/restaurants" className="inline-block mt-[var(--spacing-xl)]">
               <Button variant="primary">Browse restaurants</Button>
@@ -55,7 +57,7 @@ export default function RestaurantDetailPage({ params }: { params: Promise<{ id:
           <Image src={coverImage} alt={name} fill className="object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-display-mega text-[var(--color-mute)]">🍽</span>
+            <FontAwesomeIcon icon={faUtensils} className="text-display-mega text-[var(--color-mute)]" />
           </div>
         )}
       </div>
@@ -77,7 +79,10 @@ export default function RestaurantDetailPage({ params }: { params: Promise<{ id:
                   {cuisine.map((c) => <Badge key={c} variant="neutral">{c}</Badge>)}
                   <Badge variant="neutral">{priceRange}</Badge>
                   {ratings.count > 0 && (
-                    <Badge variant="positive">★ {ratings.average.toFixed(1)} ({ratings.count})</Badge>
+                    <Badge variant="positive">
+                      <FontAwesomeIcon icon={faStar} className="mr-1" />
+                      {ratings.average.toFixed(1)} ({ratings.count})
+                    </Badge>
                   )}
                 </div>
                 {description && (
@@ -90,8 +95,16 @@ export default function RestaurantDetailPage({ params }: { params: Promise<{ id:
                 <Card variant="sage">
                   <p className="text-body-sm-strong text-[var(--color-ink)] mb-[var(--spacing-md)]">Contact</p>
                   <div className="flex flex-col gap-[var(--spacing-sm)]">
-                    {phone && <p className="text-body-sm text-[var(--color-body)]">📞 {phone}</p>}
-                    {email && <p className="text-body-sm text-[var(--color-body)]">✉️ {email}</p>}
+                    {phone && (
+                      <p className="text-body-sm text-[var(--color-body)] flex items-center gap-[var(--spacing-sm)]">
+                        <FontAwesomeIcon icon={faPhone} className="w-4 text-[var(--color-mute)]" /> {phone}
+                      </p>
+                    )}
+                    {email && (
+                      <p className="text-body-sm text-[var(--color-body)] flex items-center gap-[var(--spacing-sm)]">
+                        <FontAwesomeIcon icon={faEnvelope} className="w-4 text-[var(--color-mute)]" /> {email}
+                      </p>
+                    )}
                   </div>
                 </Card>
               )}

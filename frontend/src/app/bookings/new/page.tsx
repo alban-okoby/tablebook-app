@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "@/components/layout";
 import { BookingForm } from "@/components/booking/BookingForm";
 import { BookingSummary } from "@/components/booking/BookingSummary";
@@ -47,7 +49,11 @@ function NewBookingContent() {
     return (
       <div className="max-w-lg mx-auto flex flex-col gap-[var(--spacing-xl)]">
         <div className="text-center">
-          <p className="text-display-xl" style={{ color: "var(--color-primary)" }}>✓</p>
+          <FontAwesomeIcon
+            icon={faCheck}
+            className="text-display-xl"
+            style={{ color: "var(--color-primary)" }}
+          />
           <h1 className="text-display-sm text-[var(--color-ink)] mt-[var(--spacing-md)]">
             You&apos;re booked!
           </h1>
@@ -98,7 +104,9 @@ function NewBookingContent() {
           <p className="text-display-xs text-[var(--color-ink)]">{restaurant.name}</p>
           <p className="text-body-sm text-[var(--color-mute)]">{restaurant.address.city}</p>
           {restaurant.phone && (
-            <p className="text-body-sm text-[var(--color-body)]">📞 {restaurant.phone}</p>
+            <p className="text-body-sm text-[var(--color-body)] flex items-center gap-[var(--spacing-sm)]">
+              <FontAwesomeIcon icon={faPhone} className="w-4 text-[var(--color-mute)]" /> {restaurant.phone}
+            </p>
           )}
         </Card>
       </div>

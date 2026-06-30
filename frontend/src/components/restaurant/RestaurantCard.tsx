@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUtensils, faStar } from "@fortawesome/free-solid-svg-icons";
 import { Card, Badge, Button } from "@/components/ui";
 import type { Restaurant } from "@/types/restaurant";
 
@@ -23,7 +25,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-display-md text-[var(--color-mute)]">🍽</span>
+            <FontAwesomeIcon icon={faUtensils} className="text-display-md text-[var(--color-mute)]" />
           </div>
         )}
         {isFeatured && (
@@ -43,7 +45,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
         </div>
         {ratings.count > 0 && (
           <Badge variant="positive" className="shrink-0">
-            ★ {ratings.average.toFixed(1)}
+            <FontAwesomeIcon icon={faStar} className="mr-1" /> {ratings.average.toFixed(1)}
           </Badge>
         )}
       </div>

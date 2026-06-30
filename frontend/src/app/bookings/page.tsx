@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "@/components/layout";
 import { BookingCard } from "@/components/booking/BookingCard";
 import { Button, Badge } from "@/components/ui";
@@ -76,7 +78,7 @@ export default function BookingsPage() {
 
           {!loading && !error && bookings.length === 0 && (
             <div className="rounded-[var(--radius-xl)] p-[var(--spacing-3xl)] text-center" style={{ backgroundColor: "var(--color-canvas-soft)" }}>
-              <p className="text-display-xs text-[var(--color-mute)] mb-[var(--spacing-sm)]">🗓</p>
+              <FontAwesomeIcon icon={faCalendarDays} className="text-display-xs text-[var(--color-mute)] mb-[var(--spacing-sm)]" />
               <p className="text-body-md text-[var(--color-mute)] mb-[var(--spacing-xl)]">
                 {activeStatus ? `No ${activeStatus} bookings.` : "You have no bookings yet."}
               </p>
