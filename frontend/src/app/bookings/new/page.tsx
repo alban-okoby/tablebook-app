@@ -47,20 +47,26 @@ function NewBookingContent() {
 
   if (confirmed) {
     return (
-      <div className="max-w-lg mx-auto flex flex-col gap-[var(--spacing-xl)]">
+      <div className="max-w-[560px] mx-auto flex flex-col gap-[var(--spacing-xl)]">
         <div className="text-center">
-          <FontAwesomeIcon
-            icon={faCheck}
-            className="text-display-xl"
-            style={{ color: "var(--color-primary)" }}
-          />
-          <h1 className="text-display-sm text-[var(--color-ink)] mt-[var(--spacing-md)]">
+          <div
+            className="inline-flex w-16 h-16 rounded-full items-center justify-center mb-[var(--spacing-lg)]"
+            style={{ backgroundColor: "var(--color-primary-pale)" }}
+          >
+            <FontAwesomeIcon
+              icon={faCheck}
+              className="text-display-xs"
+              style={{ color: "var(--color-primary)" }}
+            />
+          </div>
+          <h1 className="text-display-sm text-[var(--color-ink)]">
             You&apos;re booked!
           </h1>
           <p className="text-body-md text-[var(--color-body)] mt-[var(--spacing-sm)]">
-            Your reservation is pending confirmation from the restaurant.
+            Your reservation request has been sent to {restaurant.name}.
           </p>
         </div>
+
         <BookingSummary
           confirmationCode={confirmed.code}
           restaurantName={restaurant.name}
@@ -68,6 +74,32 @@ function NewBookingContent() {
           time={confirmed.time}
           partySize={confirmed.partySize}
         />
+
+        {/* What happens next */}
+        <div
+          className="rounded-[var(--radius-xl)] p-[var(--spacing-xl)] flex flex-col gap-[var(--spacing-md)]"
+          style={{ backgroundColor: "var(--color-canvas-soft)" }}
+        >
+          <p className="text-body-sm-strong text-[var(--color-ink)]">What happens next?</p>
+          <ol className="flex flex-col gap-[var(--spacing-sm)] list-none">
+            {[
+              "The restaurant reviews your request.",
+              "Once confirmed, your booking status updates automatically.",
+              "You can check your booking status in My bookings at any time.",
+            ].map((step, i) => (
+              <li key={i} className="flex items-start gap-[var(--spacing-md)]">
+                <span
+                  className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-caption font-bold mt-0.5"
+                  style={{ backgroundColor: "var(--color-primary)", color: "var(--color-on-primary)" }}
+                >
+                  {i + 1}
+                </span>
+                <span className="text-body-sm text-[var(--color-body)]">{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
         <a href="/bookings" className="block">
           <button
             className="w-full text-button-md rounded-[var(--radius-xl)] px-[var(--spacing-xl)] py-[var(--spacing-md)] transition-colors"

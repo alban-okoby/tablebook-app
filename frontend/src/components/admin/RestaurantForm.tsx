@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input, Button } from "@/components/ui";
 import { restaurants as restaurantsApi } from "@/lib/api";
+import { useAuth } from "@/hooks/useAuth";
 import type { Cuisine, PriceRange, OpeningHours, Table, Restaurant } from "@/types/restaurant";
 
 const CUISINES: Cuisine[] = [
@@ -88,6 +89,8 @@ const DEFAULT_STATE: FormState = {
 interface Props {
   restaurantId?: string;
   initialData?: Restaurant;
+  createRedirect?: string;
+  editRedirect?: string;
 }
 
 function SectionCard({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -105,8 +108,9 @@ function SectionCard({ title, subtitle, children }: { title: string; subtitle?: 
   );
 }
 
-export function RestaurantForm({ restaurantId, initialData }: Props) {
+export function RestaurantForm({ restaurantId, initialData, createRedirect, editRedirect }: Props) {
   const router = useRouter();
+  const { isAdmin } = useAuth();
   const isEditing = !!restaurantId;
 
   const [form, setForm] = useState<FormState>(
@@ -191,10 +195,10 @@ export function RestaurantForm({ restaurantId, initialData }: Props) {
     try {
       if (isEditing) {
         await restaurantsApi.update(restaurantId, payload);
-        router.push("/admin/restaurants");
+        router.push(editRedirect ?? "/admin/restaurants");
       } else {
         const { restaurant } = await restaurantsApi.create(payload);
-        router.push(`/restaurants/${restaurant._id}`);
+        router.push(createRedirect ?? `/restaurants/${restaurant._id}`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -293,16 +297,18 @@ export function RestaurantForm({ restaurantId, initialData }: Props) {
           </div>
         )}
 
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={form.isFeatured}
-            onChange={(e) => setField("isFeatured", e.target.checked)}
-            className="w-4 h-4"
-            style={{ accentColor: "var(--color-primary)" }}
-          />
-          <span className="text-body-sm text-[var(--color-ink)]">Mark as featured restaurant</span>
-        </label>
+        {isAdmin && (
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.isFeatured}
+              onChange={(e) => setField("isFeatured", e.target.checked)}
+              className="w-4 h-4"
+              style={{ accentColor: "var(--color-primary)" }}
+            />
+            <span className="text-body-sm text-[var(--color-ink)]">Mark as featured restaurant</span>
+          </label>
+        )}
       </SectionCard>
 
       {/* ── Location ───────────────────────────────────── */}

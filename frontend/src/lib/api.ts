@@ -67,6 +67,8 @@ export const restaurants = {
 
   featured: () => request<{ restaurants: Restaurant[] }>("/restaurants/featured"),
 
+  mine: () => request<{ restaurants: Restaurant[] }>("/restaurants/mine"),
+
   get: (id: string) => request<{ restaurant: Restaurant }>(`/restaurants/${id}`),
 
   create: (data: Partial<Restaurant>) =>

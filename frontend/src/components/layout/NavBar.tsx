@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays, faRightFromBracket, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faRightFromBracket, faGear, faStore } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "./Container";
 import { Button } from "@/components/ui";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,7 +14,7 @@ const navLinks = [
   { label: "My Bookings", href: "/bookings" },
 ];
 
-function UserMenu({ username, isAdmin, onLogout }: { username: string; isAdmin: boolean; onLogout: () => void }) {
+function UserMenu({ username, isAdmin, isOwner, onLogout }: { username: string; isAdmin: boolean; isOwner: boolean; onLogout: () => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -73,6 +73,16 @@ function UserMenu({ username, isAdmin, onLogout }: { username: string; isAdmin: 
               <FontAwesomeIcon icon={faCalendarDays} className="w-4 text-[var(--color-mute)]" />
               My Bookings
             </Link>
+            {isOwner && (
+              <Link
+                href="/owner"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] text-body-sm text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors"
+              >
+                <FontAwesomeIcon icon={faStore} className="w-4 text-[var(--color-mute)]" />
+                Owner panel
+              </Link>
+            )}
             {isAdmin && (
               <Link
                 href="/admin"
@@ -105,7 +115,7 @@ function UserMenu({ username, isAdmin, onLogout }: { username: string; isAdmin: 
 }
 
 export function NavBar() {
-  const { user, loading, isAuthenticated, isAdmin, logout } = useAuth();
+  const { user, loading, isAuthenticated, isAdmin, isOwner, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--color-canvas)] border-b border-[var(--color-canvas-soft)]">
@@ -146,7 +156,7 @@ export function NavBar() {
               </>
             )}
             {!loading && isAuthenticated && user && (
-              <UserMenu username={user.username} isAdmin={isAdmin} onLogout={logout} />
+              <UserMenu username={user.username} isAdmin={isAdmin} isOwner={isOwner} onLogout={logout} />
             )}
           </div>
         </nav>

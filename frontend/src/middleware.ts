@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 // Routes that require authentication — redirect to login if no token cookie present.
 // Full token validation happens on the API side; middleware just gates the UI.
-const PROTECTED = ["/bookings", "/admin"];
+const PROTECTED = ["/bookings", "/admin", "/owner"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -25,5 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/bookings/:path*", "/admin/:path*"],
+  matcher: ["/bookings/:path*", "/admin/:path*", "/owner/:path*"],
 };
