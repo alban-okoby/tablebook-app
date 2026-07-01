@@ -23,6 +23,10 @@ A full-stack web application that lets diners discover restaurants, read and wri
 
 TableBook solves a common pain point: making a restaurant reservation still often requires a phone call, a third-party app that charges a fee, or an uncertain wait for confirmation. TableBook removes all three friction points — discovery, booking, and confirmation happen in a single browser session.
 
+<img src="./screen/home.png" />
+<img src="./screen/end_home.png" />
+
+
 ### Core User Flows
 
 | User type | Primary actions |
