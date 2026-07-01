@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { auth as authApi } from "@/lib/api";
-import { clearToken } from "@/lib/auth-token";
+import { clearToken, setToken } from "@/lib/auth-token";
 import type { User } from "@/types/user";
 
 interface AuthContextValue {
@@ -12,6 +12,7 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isAdmin: boolean;
   isOwner: boolean;
+  login: (token: string, user: User) => void;
   logout: () => void;
 }
 
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextValue>({
   isAuthenticated: false,
   isAdmin: false,
   isOwner: false,
+  login: () => {},
   logout: () => {},
 });
 
@@ -42,6 +44,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .finally(() => setLoading(false));
   }, []);
 
+  const login = useCallback((token: string, user: User) => {
+    setToken(token);
+    setUser(user);
+  }, []);
+
   const logout = useCallback(() => {
     clearToken();
     setUser(null);
@@ -56,6 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: !!user,
         isAdmin: user?.role === "admin",
         isOwner: user?.role === "restaurant_owner" || user?.role === "admin",
+        login,
         logout,
       }}
     >

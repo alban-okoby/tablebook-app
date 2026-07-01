@@ -2,7 +2,13 @@ import { LoginForm } from "@/components/auth";
 
 export const metadata = { title: "Sign in — TableBook" };
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string }>;
+}) {
+  const { redirect } = await searchParams;
+
   return (
     <div className="relative flex items-center justify-center min-h-[80vh] px-4 py-12 overflow-hidden">
       {/* Decorative background blobs */}
@@ -16,7 +22,7 @@ export default function LoginPage() {
       />
 
       <div className="relative z-10 w-full max-w-[448px]">
-        <LoginForm />
+        <LoginForm redirectTo={redirect ?? "/"} />
       </div>
     </div>
   );

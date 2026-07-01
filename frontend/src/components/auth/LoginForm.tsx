@@ -5,10 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Input, Button } from "@/components/ui";
 import { auth } from "@/lib/api";
-import { setToken } from "@/lib/auth-token";
+import { useAuth } from "@/hooks/useAuth";
 
-export function LoginForm() {
+interface Props {
+  redirectTo?: string;
+}
+
+export function LoginForm({ redirectTo = "/" }: Props) {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,9 +24,9 @@ export function LoginForm() {
     setError("");
     setLoading(true);
     try {
-      const { token } = await auth.login({ email, password });
-      setToken(token);
-      router.push("/bookings");
+      const { token, user } = await auth.login({ email, password });
+      login(token, user); // updates AuthContext → NavBar refreshes immediately
+      router.push(redirectTo);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Invalid credentials.");
     } finally {
