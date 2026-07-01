@@ -70,7 +70,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
   return (
     <div className="py-[var(--spacing-3xl)]" style={{ backgroundColor: "var(--color-canvas)" }}>
       <Container>
-        <div className="max-w-2xl mx-auto flex flex-col gap-[var(--spacing-3xl)]">
+        <div className="max-w-[672px] mx-auto flex flex-col gap-[var(--spacing-3xl)]">
 
           {/* Back */}
           <Link href="/bookings">

@@ -9,7 +9,9 @@ import { Container } from "@/components/layout";
 import { Badge, Button, Card } from "@/components/ui";
 import { BookingWidget } from "@/components/booking";
 import { ReviewCard } from "@/components/restaurant/ReviewCard";
+import { ReviewForm } from "@/components/restaurant/ReviewForm";
 import { useRestaurant } from "@/hooks/useRestaurants";
+import { useAuth } from "@/hooks/useAuth";
 
 const DAY_LABELS: Record<string, string> = {
   monday: "Monday", tuesday: "Tuesday", wednesday: "Wednesday",
@@ -18,7 +20,8 @@ const DAY_LABELS: Record<string, string> = {
 
 export default function RestaurantDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { restaurant, loading, error } = useRestaurant(id);
+  const { restaurant, loading, error, patchReviews } = useRestaurant(id);
+  const { user } = useAuth();
 
   if (loading) {
     return (
@@ -141,10 +144,19 @@ export default function RestaurantDetailPage({ params }: { params: Promise<{ id:
               )}
 
               {/* Reviews */}
-              <div>
-                <p className="text-body-md-strong text-[var(--color-ink)] mb-[var(--spacing-lg)]">
+              <div className="flex flex-col gap-[var(--spacing-xl)]">
+                <p className="text-body-md-strong text-[var(--color-ink)]">
                   Reviews {ratings.count > 0 && <span className="text-[var(--color-mute)]">({ratings.count})</span>}
                 </p>
+
+                {/* Review form */}
+                <ReviewForm
+                  restaurantId={id}
+                  alreadyReviewed={!!user && reviews?.some((r) => r.user._id === user._id)}
+                  onSuccess={patchReviews}
+                />
+
+                {/* Existing reviews */}
                 {reviews?.length > 0 ? (
                   <div className="flex flex-col gap-[var(--spacing-lg)]">
                     {reviews.map((r) => <ReviewCard key={r._id} review={r} />)}

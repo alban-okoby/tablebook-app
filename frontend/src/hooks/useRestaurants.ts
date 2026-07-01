@@ -44,5 +44,12 @@ export function useRestaurant(id: string) {
       .finally(() => setLoading(false));
   }, [id]);
 
-  return { restaurant, loading, error };
+  function patchReviews(
+    reviews: Restaurant["reviews"],
+    ratings: Restaurant["ratings"]
+  ) {
+    setRestaurant((prev) => prev ? { ...prev, reviews, ratings } : prev);
+  }
+
+  return { restaurant, loading, error, patchReviews };
 }
