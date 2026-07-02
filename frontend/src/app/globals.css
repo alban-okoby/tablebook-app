@@ -210,3 +210,33 @@ body {
   font-weight: 600;
   line-height: var(--leading-body-md);
 }
+
+/* ── Global interaction transitions ─────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, opacity, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Exclude elements where we don't want color transitions (e.g. page wrappers) */
+html, body, main, div, section, article, aside, header, footer, nav {
+  transition: none;
+}
+
+/* Buttons and links: micro-press on click */
+a,
+button,
+[role="button"] {
+  transition-property: background-color, border-color, color, opacity, box-shadow, transform;
+  transition-duration: 120ms;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+a:active,
+button:active,
+[role="button"]:active {
+  transform: scale(0.97);
+}
