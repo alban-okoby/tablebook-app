@@ -23,6 +23,11 @@ A full-stack web application that lets diners discover restaurants, read and wri
 
 TableBook solves a common pain point: making a restaurant reservation still often requires a phone call, a third-party app that charges a fee, or an uncertain wait for confirmation. TableBook removes all three friction points — discovery, booking, and confirmation happen in a single browser session.
 
+Project Links
+- [tablebook-front.vercel.app](tablebook-front.vercel.app)
+- [https://github.com/alban-okoby/tablebook-app](https://github.com/alban-okoby/tablebook-app)
+
+
 <img src="./screen/home.png" />
 <img src="./screen/end_home.png" />
 
@@ -234,66 +239,9 @@ Indexes:
 Virtual: isPast → date < now
 Static:  findConflicts(restaurantId, date, time) → pending + confirmed bookings on that slot
 ```
-
 ---
 
-## 5. API Reference
-
-Base URL: `https://your-api.onrender.com/api`
-
-### Authentication
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| POST | `/auth/register` | — | Create account; returns JWT |
-| POST | `/auth/login` | — | Credentials → JWT |
-| GET | `/auth/me` | Bearer | Fetch own profile |
-| POST | `/auth/logout` | Bearer | Invalidate cookie |
-
-### Restaurants
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| GET | `/restaurants` | optional | List + search (q, cuisine, city, priceRange, minRating, sortBy, page, limit) |
-| GET | `/restaurants/featured` | — | Up to 8 featured restaurants |
-| GET | `/restaurants/:id` | optional | Single restaurant (increments viewCount) |
-| POST | `/restaurants` | owner / admin | Create listing |
-| PUT | `/restaurants/:id` | owner / admin | Update own listing |
-| DELETE | `/restaurants/:id` | admin | Remove listing |
-| POST | `/restaurants/:id/reviews` | user | Post a review (one per user) |
-| DELETE | `/restaurants/:id/reviews/:rid` | author / admin | Remove a review |
-
-### Bookings
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| GET | `/bookings` | user | Own bookings (filterable by status) |
-| GET | `/bookings/:id` | user | Single booking detail |
-| POST | `/bookings` | user | Create booking (conflict-checked) |
-| PATCH | `/bookings/:id/cancel` | user / admin | Cancel a booking |
-
-### Health
-
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/health` | `{ status: "ok", environment, timestamp }` |
-
-### Common Response Format
-
-```jsonc
-// Success — list
-{ "restaurants": [...], "pagination": { "page": 1, "limit": 12, "total": 84, "pages": 7 } }
-
-// Success — single
-{ "restaurant": { "_id": "...", "name": "...", ... } }
-
-// Error
-{ "error": "Validation failed", "details": [{ "field": "email", "msg": "Invalid email" }] }
-```
-
----
-
-## 6. Security Design
+## 5. Security Design
 
 ### Authentication & Authorisation
 
@@ -315,7 +263,7 @@ graph TD
 
 ```
 /api/*          100 requests / 15 min  (general API)
-/api/auth/*      10 requests / 15 min  (login + register)
+/api/auth/*      10 requests / 5 min  (login + register)
 ```
 
 The auth limiter is intentionally aggressive — 10 attempts per IP per 15 minutes prevents credential-stuffing even without CAPTCHA.
@@ -344,7 +292,7 @@ Booking creation calls `Booking.findConflicts(restaurantId, date, time)` before 
 
 ---
 
-## 7. Frontend Architecture
+## 6. Frontend Architecture
 
 ### App Router Page Map
 
@@ -390,30 +338,6 @@ graph LR
 
 The hook runs once on mount. The NavBar reads `{ user, loading, isAuthenticated }` to decide whether to show Sign in / Get started buttons or the personalised avatar + dropdown.
 
-### Component Hierarchy
-
-```mermaid
-graph TD
-    Layout["Layout<br/>NavBar + Footer"]
-    HeroBand["HeroBand<br/>light &amp; dark variant"]
-    ContentBand["ContentBand<br/>optional soft bg"]
-    Grid["RestaurantGrid<br/>1-2-3 col responsive"]
-    RCard["RestaurantCard<br/>image · badges · rating · CTA"]
-    BWidget["BookingWidget<br/>quick-book in hero"]
-    BCard["BookingCard<br/>booking summary"]
-    Review["ReviewCard<br/>star rating + avatar"]
-    UI["UI Primitives<br/>Button · Card · Badge · Input"]
-
-    Layout --> HeroBand
-    Layout --> ContentBand
-    Layout --> Grid
-    Grid --> RCard
-    Layout --> BWidget
-    Layout --> BCard
-    Layout --> Review
-    Layout --> UI
-```
-
 ### Design System
 
 All design tokens live in `globals.css` under a `@theme {}` block:
@@ -425,7 +349,7 @@ All design tokens live in `globals.css` under a `@theme {}` block:
 
 ---
 
-## 8. Cloud Deployment
+## 7. Cloud Deployment
 
 ### Infrastructure Overview
 
@@ -449,7 +373,7 @@ graph LR
 4. Start command: `node src/server.js`
 5. Environment: Node 20
 6. Add all environment variables from section 10 below.
-7. Render assigns a public URL (`https://your-api.onrender.com`).
+7. Render assigns a public URL like (`https://your-api.onrender.com`).
 
 ### Frontend — Vercel
 
@@ -457,7 +381,7 @@ graph LR
 2. Set the **Root Directory** to `frontend`.
 3. Framework preset: **Next.js** (auto-detected).
 4. Add `NEXT_PUBLIC_API_URL=https://your-api.onrender.com/api` as an environment variable.
-5. Deploy. Vercel assigns a URL (`https://tablebook.vercel.app`).
+5. Deploy. Vercel assigns a URL like mine (`https://tablebook.vercel.app`).
 
 ### Database — MongoDB Atlas
 
@@ -474,25 +398,9 @@ After deployment, update `ALLOWED_ORIGINS` on Render to include the Vercel URL:
 ALLOWED_ORIGINS=https://tablebook.vercel.app
 ```
 
-### Continuous Deployment
-
-Both Render and Vercel watch the `main` branch. Every `git push` triggers:
-
-```mermaid
-graph LR
-    Push["git push origin main"]
-    Vercel["Vercel<br/>next build<br/>edge deploy<br/>&lt; 60s"]
-    Render["Render<br/>npm install<br/>server restart<br/>&lt; 90s"]
-
-    Push --> Vercel
-    Push --> Render
-```
-
-No CI configuration file is required for this two-platform setup. For a team workflow, add a GitHub Actions workflow that runs `next lint` and `tsc --noEmit` before the deploy hooks fire.
-
 ---
 
-## 9. Local Development
+## 8. Local Development
 
 ### Prerequisites
 
@@ -502,8 +410,8 @@ No CI configuration file is required for this two-platform setup. For a team wor
 ### 1 — Clone and install
 
 ```bash
-git clone <repo-url>
-cd book-recommendation-app
+git clone https://github.com/alban-okoby/tablebook-app
+cd tablebook-app
 
 # Backend
 cd backend && npm install
@@ -564,7 +472,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `MONGODB_URI` | `mongodb+srv://…` | yes | Atlas connection string |
 | `JWT_SECRET` | 32+ random chars | yes | HMAC signing key — never commit |
 | `JWT_EXPIRES_IN` | `7d` | no | Token lifetime (default 7 days) |
-| `ALLOWED_ORIGINS` | `https://tablebook.vercel.app` | yes | Comma-separated CORS allowlist |
+| `ALLOWED_ORIGINS` | `http://localhost:3000` | yes | Comma-separated CORS allowlist |
 | `RATE_LIMIT_WINDOW_MS` | `900000` | no | Rate limit window in ms (default 15 min) |
 | `RATE_LIMIT_MAX_REQUESTS` | `100` | no | Max requests per window per IP |
 
@@ -572,7 +480,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Example | Description |
 |----------|---------|-------------|
-| `NEXT_PUBLIC_API_URL` | `https://your-api.onrender.com/api` | Base URL for all API calls |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:5000/api` | Base URL for all API calls |
 
 ---
 
